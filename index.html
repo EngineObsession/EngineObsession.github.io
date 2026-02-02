@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <title>Engine Calculator Suite: Rod Length, Compression & Displacement (K20, LS3, 2JZ)</title>
+    <title>Engine Calculator Suite</title>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1022968838583578" crossorigin="anonymous"></script>
-    <meta name="description" content="Free automotive engineering calculators. Calculate connecting rod length, compression ratio, piston speed, and fuel injector sizing. Includes a database of specs for Honda, Ford, Chevy, and JDM engines.">
+    <meta name="description" content="Free automotive engineering calculators. Calculate intake runner length, connecting rod length, compression ratio, piston speed, and fuel injector sizing. Includes specs for Honda, Ford, Chevy, and JDM engines.">
     
     <script type="application/ld+json">
     {
@@ -15,13 +15,9 @@
       "name": "Ultimate Engine Calculator Suite",
       "applicationCategory": "AutomotiveUtility",
       "operatingSystem": "Web",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-      },
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
       "description": "Comprehensive automotive calculators for engine building, tuning, and drivetrain setup.",
-      "featureList": "Rod Length Calculator, Compression Ratio, Mean Piston Speed, Rod Ratio, Injector Duty Cycle"
+      "featureList": "Intake Runner Calculator, Rod Length Calculator, Compression Ratio, Mean Piston Speed"
     }
     </script>
 
@@ -156,12 +152,23 @@
              
             <p><strong>Calculating Rod Length (Stroker Kits):</strong> When increasing stroke, you are limited by the Block Deck Height. To fit a larger crank, you must often use a shorter connecting rod or a piston with a higher "Compression Height" (pin location). The formula used here is: <em>Deck Height - (Stroke ÷ 2) - Compression Height - Deck Clearance</em>.</p>
             <p><strong>Rod/Stroke Ratio:</strong> This ratio determines the angle of the rod during rotation. A higher ratio (above 1.75) reduces side-loading on cylinder walls, reducing friction and wear at high RPM. This is why high-revving engines like the Honda F20C (Ratio 1.82) last longer than "stroker" builds with poor ratios (below 1.50).</p>
-            <p><strong>Compression Ratio:</strong> Static CR is the ratio of maximum cylinder volume (BDC) to minimum volume (TDC). While higher CR yields more power, it increases the risk of knock (detonation), requiring higher octane fuel.</p>
         </div>
     </div>
 
     <div id="tab-airfuel" class="tab-content">
         <div class="grid-container">
+            <div class="card">
+                <h3>Intake Runner Tuner</h3>
+                <label>Target RPM (Peak Power)</label><input type="number" id="run_rpm" placeholder="6000">
+                <label>Cam Duration (Adv. Degrees)</label><input type="number" id="run_cam" placeholder="280">
+                <button class="calc-btn" onclick="calcRunner()">Calculate Lengths</button>
+                <div class="result-box" style="font-size: 0.8em; text-align: left;">
+                    2nd Harmonic (Race): <span id="run_2" style="color:var(--primary)">---</span><br>
+                    3rd Harmonic (Street): <span id="run_3" style="color:var(--primary)">---</span><br>
+                    4th Harmonic (Torque): <span id="run_4" style="color:var(--primary)">---</span>
+                </div>
+            </div>
+
             <div class="card">
                 <h3>Airflow (CFM)</h3>
                 <label>Engine Size (Liters)</label><input type="number" id="cfm_liters">
@@ -183,10 +190,12 @@
         </div>
         
         <div class="info-block">
-            <h4>Fuel System Engineering</h4>
+            <h4>Intake & Fuel Tuning</h4>
              
-            <p><strong>Injector Duty Cycle:</strong> Why do we limit duty cycle to 80%? Fuel injectors are electromechanical solenoids. If they are held open for too long (100% duty), they can overheat and "latch" open, flooding the cylinder and causing hydraulic lock. We calculate the required flow rate to support your horsepower target while keeping the injector in its safe operating window.</p>
-            <p><strong>CFM (Cubic Feet per Minute):</strong> This calculation helps you select the correct throttle body or carburetor size. An engine is an air pump; if your throttle body flows less CFM than the engine demands at Redline, you are choking power. Conversely, a throttle body that is too large will result in poor low-speed throttle response.</p>
+            <p><strong>Intake Runner Harmonics:</strong> Intake runners use pressure waves to force air into the cylinder (supercharging effect). This happens when the pressure wave arrives at the intake valve exactly as it opens. 
+            <br>&bull; <strong>2nd Harmonic:</strong> Strongest signal, usually for high-RPM drag racing.
+            <br>&bull; <strong>3rd Harmonic:</strong> Best balance for Street/Strip (most factory performance manifolds).
+            <br>&bull; <strong>4th Harmonic:</strong> Good for low-end torque and broader powerbands.</p>
         </div>
     </div>
 
@@ -217,10 +226,8 @@
             <p><strong>Mean Piston Speed:</strong> This is the average speed of the piston as it travels up and down the bore. It is widely considered the primary limit for connecting rod strength.</p>
             <ul>
                 <li><strong>Stock Cast Pistons:</strong> Generally safe up to ~4,000 ft/min.</li>
-                <li><strong>Hypereutectic Pistons:</strong> Safe up to ~4,200 ft/min.</li>
                 <li><strong>Forged Pistons (4032/2618):</strong> Can withstand speeds over 5,000+ ft/min (F1 engines run much higher).</li>
             </ul>
-            <p><strong>Dynamic Compression Ratio (DCR):</strong> Static compression assumes the valves are closed at BDC. In reality, the intake valve stays open slightly as the piston rises (Intake Valve Closing event). DCR calculates the <em>actual</em> compression of the air trapped after the valve closes. This is the number that determines if you can run pump gas or if you need race fuel.</p>
         </div>
     </div>
 
@@ -250,76 +257,99 @@
         <div class="info-block">
             <h4>Drivetrain Optimization</h4>
             <p><strong>Gear Ratios:</strong> When swapping transmissions (e.g., putting a ZF 6-speed on an E30), the Final Drive Ratio is critical. A short ratio (4.10) accelerates faster but buzzes at high RPM on the highway. A tall ratio (2.93) is great for cruising/turbo load but feels sluggish off the line. Use this calculator to see your exact cruising RPM or theoretical top speed.</p>
-            <p><strong>Tire Size Variance:</strong> Changing tire sizes affects your speedometer accuracy and effective gear ratio. A taller tire increases top speed but reduces torque at the wheels. Generally, you want to stay within 3% of the factory rolling diameter to avoid ABS/Traction Control errors.</p>
         </div>
     </div>
 
     <section id="engine-list-seo">
         <h3>Available Engine Specifications</h3>
-        <p>Database includes Deck Height, Bore, and Stroke for the following engines:</p>
+        <p>Database includes Deck Height, Bore, Stroke, and Cam Duration for the following engines:</p>
         <ul id="seo-list">
             </ul>
     </section>
 
 <script>
-    // --- 1. ENGINE DATABASE (Updated with Deck Height in mm) ---
+    // --- 1. ENGINE DATABASE (Updated with Deck Height in mm & Cam Duration) ---
     const engineDatabase = {
-    // --- JDM (Honda, Toyota, Nissan, Subaru, Mitsubishi) ---
-    "Honda B16A (Civic Si/Type R)": { bore: 81.0, stroke: 77.4, rod: 134.0, cyl: 4, cr: 10.2, deck: 203.9 },
-    "Honda B18C1 (Integra GSR)": { bore: 81.0, stroke: 87.2, rod: 137.9, cyl: 4, cr: 10.0, deck: 212.4 },
-    "Honda B18C5 (Integra Type R)": { bore: 81.0, stroke: 87.2, rod: 137.9, cyl: 4, cr: 11.1, deck: 212.4 },
-    "Honda K20A2 (RSX Type S)": { bore: 86.0, stroke: 86.0, rod: 139.0, cyl: 4, cr: 11.0, deck: 212.0 },
-    "Honda K24A2 (TSX)": { bore: 87.0, stroke: 99.0, rod: 152.0, cyl: 4, cr: 10.5, deck: 231.5 },
-    "Honda F20C (S2000 AP1)": { bore: 87.0, stroke: 84.0, rod: 153.0, cyl: 4, cr: 11.7, deck: 224.0 },
-    "Honda F22C (S2000 AP2)": { bore: 87.0, stroke: 90.7, rod: 149.65, cyl: 4, cr: 11.1, deck: 224.0 },
-    "Toyota 4AGE (Corolla AE86)": { bore: 81.0, stroke: 77.0, rod: 122.0, cyl: 4, cr: 9.4, deck: 190.0 },
-    "Toyota 1JZ-GTE (Supra/Chaser)": { bore: 86.0, stroke: 71.5, rod: 125.2, cyl: 6, cr: 8.5, deck: 203.0 },
-    "Toyota 2JZ-GTE (Supra Mk4)": { bore: 86.0, stroke: 86.0, rod: 142.0, cyl: 6, cr: 8.5, deck: 219.0 },
-    "Toyota 3S-GE (Altezza BEAMS)": { bore: 86.0, stroke: 86.0, rod: 138.0, cyl: 4, cr: 11.5, deck: 213.5 },
-    "Nissan SR20DET (Silvia)": { bore: 86.0, stroke: 86.0, rod: 136.3, cyl: 4, cr: 8.5, deck: 211.3 },
-    "Nissan RB26DETT (Skyline GT-R)": { bore: 86.0, stroke: 73.7, rod: 121.5, cyl: 6, cr: 8.5, deck: 183.75 }, 
-    "Nissan RB30 (Patrol/Swap)": { bore: 86.0, stroke: 85.0, rod: 152.5, cyl: 6, cr: 9.0, deck: 232.75 },
-    "Nissan VQ35DE (350Z)": { bore: 95.5, stroke: 81.4, rod: 144.2, cyl: 6, cr: 10.3, deck: 215.0 },
-    "Nissan VR38DETT (R35 GT-R)": { bore: 95.5, stroke: 88.4, rod: 165.0, cyl: 6, cr: 9.0, deck: 228.0 },
-    "Mitsubishi 4G63T (Evo 8/9)": { bore: 85.0, stroke: 88.0, rod: 150.0, cyl: 4, cr: 8.8, deck: 229.0 },
-    "Mitsubishi 4B11T (Evo X)": { bore: 86.0, stroke: 86.0, rod: 143.75, cyl: 4, cr: 9.0, deck: 213.5 },
-    "Subaru EJ205 (WRX 2.0L)": { bore: 92.0, stroke: 75.0, rod: 130.5, cyl: 4, cr: 8.0, deck: 201.0 },
-    "Subaru EJ257 (STI 2.5L)": { bore: 99.5, stroke: 79.0, rod: 130.5, cyl: 4, cr: 8.2, deck: 201.0 },
-    "Subaru FA20 (BRZ/GT86)": { bore: 86.0, stroke: 86.0, rod: 129.3, cyl: 4, cr: 12.5, deck: 205.5 },
-    "Mazda MZR 2.3 DISI (Speed3)": { bore: 87.5, stroke: 94.0, rod: 150.5, cyl: 4, cr: 9.5, deck: 227.0 },
+    // ========================================================================
+    // JDM: Honda, Toyota, Nissan, Mitsubishi, Subaru, Mazda
+    // ========================================================================
+    "Honda D16Z6 (Civic Si SOHC)": { bore: 75.0, stroke: 90.0, rod: 137.0, cyl: 4, cr: 9.2, deck: 212.0, cam: 236 },
+    "Honda B16A (Civic Si/Type R)": { bore: 81.0, stroke: 77.4, rod: 134.0, cyl: 4, cr: 10.2, deck: 203.9, cam: 244 },
+    "Honda B18C1 (Integra GSR)": { bore: 81.0, stroke: 87.2, rod: 137.9, cyl: 4, cr: 10.0, deck: 212.4, cam: 250 },
+    "Honda B18C5 (Integra Type R)": { bore: 81.0, stroke: 87.2, rod: 137.9, cyl: 4, cr: 11.1, deck: 212.4, cam: 278 },
+    "Honda H22A (Prelude VTEC)": { bore: 87.0, stroke: 90.7, rod: 143.0, cyl: 4, cr: 10.6, deck: 219.5, cam: 260 },
+    "Honda K20A2 (RSX Type S)": { bore: 86.0, stroke: 86.0, rod: 139.0, cyl: 4, cr: 11.0, deck: 212.0, cam: 280 },
+    "Honda K24A2 (TSX)": { bore: 87.0, stroke: 99.0, rod: 152.0, cyl: 4, cr: 10.5, deck: 231.5, cam: 260 },
+    "Honda F20C (S2000 AP1)": { bore: 87.0, stroke: 84.0, rod: 153.0, cyl: 4, cr: 11.7, deck: 224.0, cam: 295 },
+    "Honda F22C (S2000 AP2)": { bore: 87.0, stroke: 90.7, rod: 149.65, cyl: 4, cr: 11.1, deck: 224.0, cam: 280 },
+    
+    "Toyota 4AGE (Corolla AE86)": { bore: 81.0, stroke: 77.0, rod: 122.0, cyl: 4, cr: 9.4, deck: 190.0, cam: 240 },
+    "Toyota 3S-GE (Altezza BEAMS)": { bore: 86.0, stroke: 86.0, rod: 138.0, cyl: 4, cr: 11.5, deck: 213.5, cam: 256 },
+    "Toyota 1JZ-GTE (Chaser/Supra)": { bore: 86.0, stroke: 71.5, rod: 125.2, cyl: 6, cr: 8.5, deck: 203.0, cam: 224 },
+    "Toyota 2JZ-GTE (Supra Mk4)": { bore: 86.0, stroke: 86.0, rod: 142.0, cyl: 6, cr: 8.5, deck: 219.0, cam: 233 },
+    
+    "Nissan CA18DET (S13)": { bore: 83.0, stroke: 83.6, rod: 133.0, cyl: 4, cr: 8.5, deck: 199.0, cam: 240 },
+    "Nissan SR20DET (Silvia)": { bore: 86.0, stroke: 86.0, rod: 136.3, cyl: 4, cr: 8.5, deck: 211.3, cam: 240 },
+    "Nissan RB25DET (Skyline)": { bore: 86.0, stroke: 71.7, rod: 121.5, cyl: 6, cr: 9.0, deck: 183.75, cam: 240 },
+    "Nissan RB26DETT (GT-R)": { bore: 86.0, stroke: 73.7, rod: 121.5, cyl: 6, cr: 8.5, deck: 183.75, cam: 240 },
+    "Nissan RB30 (Patrol Block)": { bore: 86.0, stroke: 85.0, rod: 152.5, cyl: 6, cr: 9.0, deck: 232.75, cam: 248 },
+    "Nissan VQ35DE (350Z)": { bore: 95.5, stroke: 81.4, rod: 144.2, cyl: 6, cr: 10.3, deck: 215.0, cam: 246 },
+    "Nissan VR38DETT (R35 GT-R)": { bore: 95.5, stroke: 88.4, rod: 165.0, cyl: 6, cr: 9.0, deck: 228.0, cam: 258 },
+    
+    "Mitsubishi 4G63T (Evo 8/9)": { bore: 85.0, stroke: 88.0, rod: 150.0, cyl: 4, cr: 8.8, deck: 229.0, cam: 252 },
+    "Mitsubishi 4B11T (Evo X)": { bore: 86.0, stroke: 86.0, rod: 143.75, cyl: 4, cr: 9.0, deck: 213.5, cam: 256 },
+    
+    "Subaru EJ205 (WRX 2.0L)": { bore: 92.0, stroke: 75.0, rod: 130.5, cyl: 4, cr: 8.0, deck: 201.0, cam: 252 },
+    "Subaru EJ257 (STI 2.5L)": { bore: 99.5, stroke: 79.0, rod: 130.5, cyl: 4, cr: 8.2, deck: 201.0, cam: 256 },
+    "Subaru FA20 (BRZ/GT86)": { bore: 86.0, stroke: 86.0, rod: 129.3, cyl: 4, cr: 12.5, deck: 205.5, cam: 255 },
+    
+    "Mazda BP-4W (Miata 1.8 NB)": { bore: 83.0, stroke: 85.0, rod: 133.0, cyl: 4, cr: 9.5, deck: 207.9, cam: 238 },
+    "Mazda MZR 2.3 DISI (Speed3)": { bore: 87.5, stroke: 94.0, rod: 150.5, cyl: 4, cr: 9.5, deck: 227.0, cam: 245 },
 
-    // --- USDM (Chevy, Ford, Dodge) ---
-    "Chevy Small Block 350 (Gen 1)": { bore: 101.6, stroke: 88.39, rod: 144.8, cyl: 8, cr: 9.0, deck: 229.2 }, 
-    "Chevy LS1 (5.7L)": { bore: 99.0, stroke: 92.0, rod: 154.9, cyl: 8, cr: 10.1, deck: 234.7 }, 
-    "Chevy LS3 (6.2L)": { bore: 103.25, stroke: 92.0, rod: 154.9, cyl: 8, cr: 10.7, deck: 234.7 },
-    "Chevy LS7 (Z06 7.0L)": { bore: 104.8, stroke: 101.6, rod: 154.0, cyl: 8, cr: 11.0, deck: 234.7 },
-    "Chevy LT4 (Supercharged 6.2L)": { bore: 103.25, stroke: 92.0, rod: 154.9, cyl: 8, cr: 10.0, deck: 234.7 },
-    "Ford 302 Windsor (5.0L)": { bore: 101.6, stroke: 76.2, rod: 129.3, cyl: 8, cr: 9.0, deck: 208.4 }, 
-    "Ford 4.6L Modular (2V GT)": { bore: 90.2, stroke: 90.0, rod: 150.7, cyl: 8, cr: 9.4, deck: 227.0 },
-    "Ford 5.0L Coyote (Gen 1)": { bore: 92.2, stroke: 92.7, rod: 150.7, cyl: 8, cr: 11.0, deck: 227.0 }, 
-    "Ford 5.2L Voodoo (GT350)": { bore: 94.0, stroke: 93.0, rod: 150.7, cyl: 8, cr: 12.0, deck: 227.0 },
-    "Ford 7.3L Godzilla": { bore: 107.2, stroke: 101.0, rod: 160.5, cyl: 8, cr: 10.5, deck: 245.1 }, 
-    "Ford Barra 4.0T (Falcon XR6)": { bore: 92.26, stroke: 99.31, rod: 152.0, cyl: 6, cr: 8.5, deck: 235.5 },
-    "Dodge 5.7L Hemi": { bore: 99.5, stroke: 90.9, rod: 158.5, cyl: 8, cr: 9.6, deck: 234.9 }, 
-    "Dodge 6.2L Hellcat": { bore: 103.9, stroke: 90.9, rod: 158.5, cyl: 8, cr: 9.5, deck: 234.9 },
-    "Dodge 8.4L Viper V10": { bore: 103.0, stroke: 100.6, rod: 158.5, cyl: 10, cr: 10.2, deck: 234.9 },
+    // ========================================================================
+    // USDM: Chevy, Ford, Dodge
+    // ========================================================================
+    "Chevy SBC 350 (Gen 1)": { bore: 101.6, stroke: 88.39, rod: 144.8, cyl: 8, cr: 9.0, deck: 229.2, cam: 260 },
+    "Chevy LS1 (5.7L)": { bore: 99.0, stroke: 92.0, rod: 154.9, cyl: 8, cr: 10.1, deck: 234.7, cam: 265 },
+    "Chevy LS3 (6.2L)": { bore: 103.25, stroke: 92.0, rod: 154.9, cyl: 8, cr: 10.7, deck: 234.7, cam: 270 },
+    "Chevy LS7 (Z06 7.0L)": { bore: 104.8, stroke: 101.6, rod: 154.0, cyl: 8, cr: 11.0, deck: 234.7, cam: 290 },
+    "Chevy LSA (ZL1/CTS-V)": { bore: 103.25, stroke: 92.0, rod: 154.9, cyl: 8, cr: 9.1, deck: 234.7, cam: 268 },
+    
+    "Ford 302 Windsor (5.0L)": { bore: 101.6, stroke: 76.2, rod: 129.3, cyl: 8, cr: 9.0, deck: 208.4, cam: 266 },
+    "Ford 4.6L Modular (2V GT)": { bore: 90.2, stroke: 90.0, rod: 150.7, cyl: 8, cr: 9.4, deck: 227.0, cam: 256 },
+    "Ford 4.6L Modular (4V Cobra)": { bore: 90.2, stroke: 90.0, rod: 150.7, cyl: 8, cr: 9.85, deck: 227.0, cam: 258 },
+    "Ford 5.0L Coyote (Gen 1)": { bore: 92.2, stroke: 92.7, rod: 150.7, cyl: 8, cr: 11.0, deck: 227.0, cam: 260 },
+    "Ford 5.2L Voodoo (GT350)": { bore: 94.0, stroke: 93.0, rod: 150.7, cyl: 8, cr: 12.0, deck: 227.0, cam: 270 },
+    "Ford 7.3L Godzilla": { bore: 107.2, stroke: 101.0, rod: 160.5, cyl: 8, cr: 10.5, deck: 245.1, cam: 254 },
+    "Ford 2.3L EcoBoost": { bore: 87.5, stroke: 94.0, rod: 149.3, cyl: 4, cr: 9.5, deck: 227.0, cam: 235 },
+    "Ford Barra 4.0T (Falcon XR6)": { bore: 92.26, stroke: 99.31, rod: 152.0, cyl: 6, cr: 8.5, deck: 235.5, cam: 250 },
+    
+    "Dodge 5.7L Hemi": { bore: 99.5, stroke: 90.9, rod: 158.5, cyl: 8, cr: 9.6, deck: 234.9, cam: 260 },
+    "Dodge 6.4L Apache (392)": { bore: 103.9, stroke: 94.6, rod: 158.5, cyl: 8, cr: 10.9, deck: 234.9, cam: 270 },
+    "Dodge 6.2L Hellcat": { bore: 103.9, stroke: 90.9, rod: 158.5, cyl: 8, cr: 9.5, deck: 234.9, cam: 278 },
+    "Dodge 8.4L Viper V10": { bore: 103.0, stroke: 100.6, rod: 158.5, cyl: 10, cr: 10.2, deck: 234.9, cam: 280 },
 
-    // --- EURO (BMW, VW/Audi, Porsche, Mercedes) ---
-    "BMW M20B25 (E30 325i)": { bore: 84.0, stroke: 75.0, rod: 135.0, cyl: 6, cr: 8.8, deck: 206.0 },
-    "BMW M50B25 (E36 325i)": { bore: 84.0, stroke: 75.0, rod: 135.0, cyl: 6, cr: 10.0, deck: 210.0 },
-    "BMW S54 (E46 M3)": { bore: 87.0, stroke: 91.0, rod: 139.0, cyl: 6, cr: 11.5, deck: 217.0 },
-    "BMW N54 (335i Twin Turbo)": { bore: 84.0, stroke: 89.6, rod: 145.0, cyl: 6, cr: 10.2, deck: 221.0 },
-    "BMW S85 (E60 M5 V10)": { bore: 92.0, stroke: 75.2, rod: 140.7, cyl: 10, cr: 12.0, deck: 217.5 },
-    "VW/Audi 1.8T (20v)": { bore: 81.0, stroke: 86.4, rod: 144.0, cyl: 4, cr: 9.5, deck: 220.0 },
-    "VW/Audi 2.0T TSI (EA888)": { bore: 82.5, stroke: 92.8, rod: 144.0, cyl: 4, cr: 9.6, deck: 220.0 },
-    "VW VR6 2.8L (12v AAA)": { bore: 81.0, stroke: 90.2, rod: 164.0, cyl: 6, cr: 10.0, deck: 247.0 },
-    "Audi 2.5L TFSI (RS3 07K)": { bore: 82.5, stroke: 92.8, rod: 144.0, cyl: 5, cr: 10.0, deck: 220.0 },
-    "Audi 4.2L V8 (B7 RS4)": { bore: 84.5, stroke: 92.8, rod: 154.0, cyl: 8, cr: 12.5, deck: 228.0 },
-    "Mercedes M156 (C63 AMG)": { bore: 102.2, stroke: 94.6, rod: 145.0, cyl: 8, cr: 11.3, deck: 228.0 },
-    "Porsche 3.6L Flat-6 (964)": { bore: 100.0, stroke: 76.4, rod: 127.0, cyl: 6, cr: 11.3, deck: 168.0 },
-    "Porsche 4.0L Flat-6 (GT3)": { bore: 102.0, stroke: 81.5, rod: 130.0, cyl: 6, cr: 13.3, deck: 173.0 },
-    "Volvo Redblock B230FT": { bore: 96.0, stroke: 80.0, rod: 152.0, cyl: 4, cr: 8.7, deck: 231.7 }
-    };
+    // ========================================================================
+    // Euro: BMW, VW/Audi, Porsche, Mercedes, Volvo
+    // ========================================================================
+    "BMW M20B25 (E30 325i)": { bore: 84.0, stroke: 75.0, rod: 135.0, cyl: 6, cr: 8.8, deck: 206.0, cam: 244 },
+    "BMW M50B25 (E36 325i)": { bore: 84.0, stroke: 75.0, rod: 135.0, cyl: 6, cr: 10.0, deck: 210.0, cam: 240 },
+    "BMW S54 (E46 M3)": { bore: 87.0, stroke: 91.0, rod: 139.0, cyl: 6, cr: 11.5, deck: 217.0, cam: 308 },
+    "BMW N54 (335i Twin Turbo)": { bore: 84.0, stroke: 89.6, rod: 145.0, cyl: 6, cr: 10.2, deck: 221.0, cam: 245 },
+    "BMW S65 (E92 M3 V8)": { bore: 92.0, stroke: 75.2, rod: 140.7, cyl: 8, cr: 12.0, deck: 217.5, cam: 290 },
+    "BMW S85 (E60 M5 V10)": { bore: 92.0, stroke: 75.2, rod: 140.7, cyl: 10, cr: 12.0, deck: 217.5, cam: 290 },
+    
+    "VW/Audi 1.8T (20v)": { bore: 81.0, stroke: 86.4, rod: 144.0, cyl: 4, cr: 9.5, deck: 220.0, cam: 240 },
+    "VW/Audi 2.0T TSI (EA888)": { bore: 82.5, stroke: 92.8, rod: 144.0, cyl: 4, cr: 9.6, deck: 220.0, cam: 250 },
+    "VW/Audi VR6 2.8L (12v)": { bore: 81.0, stroke: 90.2, rod: 164.0, cyl: 6, cr: 10.0, deck: 247.0, cam: 258 },
+    "Audi 2.5L TFSI (RS3)": { bore: 82.5, stroke: 92.8, rod: 144.0, cyl: 5, cr: 10.0, deck: 220.0, cam: 255 },
+    "Audi 4.2L V8 (B7 RS4)": { bore: 84.5, stroke: 92.8, rod: 154.0, cyl: 8, cr: 12.5, deck: 228.0, cam: 280 },
+    
+    "Mercedes M156 (C63 AMG)": { bore: 102.2, stroke: 94.6, rod: 145.0, cyl: 8, cr: 11.3, deck: 228.0, cam: 280 },
+    "Porsche 3.6L (964 Air Cooled)": { bore: 100.0, stroke: 76.4, rod: 127.0, cyl: 6, cr: 11.3, deck: 168.0, cam: 260 },
+    "Porsche 4.0L Flat-6 (GT3)": { bore: 102.0, stroke: 81.5, rod: 130.0, cyl: 6, cr: 13.3, deck: 173.0, cam: 310 },
+    "Volvo Redblock B230FT": { bore: 96.0, stroke: 80.0, rod: 152.0, cyl: 4, cr: 8.7, deck: 231.7, cam: 245 }
+};
 
     // --- 2. INITIALIZATION & SEO GENERATION ---
     window.onload = function() {
@@ -335,7 +365,7 @@
 
             // Populate SEO List (Visible to Google)
             let li = document.createElement("li");
-            li.innerHTML = `<strong>${key}</strong>: ${val.bore}mm Bore, ${val.stroke}mm Stroke, ${val.rod}mm Rod, ${val.deck}mm Deck.`;
+            li.innerHTML = `<strong>${key}</strong>: ${val.bore}mm Bore, ${val.stroke}mm Stroke, ${val.deck}mm Deck.`;
             seoList.appendChild(li);
         }
     };
@@ -362,18 +392,40 @@
         // Auto-fill Rod Calc Inputs
         setVal("rod_deck", engine.deck);
         setVal("rod_stroke", engine.stroke);
-        
-        // Calculate Stock Compression Height (approximate)
-        // Formula: CompHeight = Deck - Rod - (Stroke/2)
         const compHeight = engine.deck - engine.rod - (engine.stroke / 2);
         setVal("rod_comp_height", compHeight.toFixed(2));
-        setVal("rod_clearance", 0); // Assume stock is approx flush
+        setVal("rod_clearance", 0); 
 
-        // Run basic calc to populate secondary fields
+        // Auto-fill Runner Calc
+        setVal("run_cam", engine.cam);
+
+        // Run basic calc
         calcDisplacement(); 
     }
 
     // --- 4. CALCULATOR MATH ---
+    function calcRunner() {
+        const rpm = getVal("run_rpm");
+        const cam = getVal("run_cam"); // Advertised Duration
+        if(rpm && cam) {
+            // Formula: L = ((720 - Cam) * 0.25 * 1125 * 12) / RPM
+            // V = 1125 ft/s (Speed of sound approx)
+            // Constant = 1125 * 12 * 0.25 = 3375
+            // Base Pulse Distance = (720 - cam) * 3375 / RPM
+            
+            const base = ((720 - cam) * 3375) / rpm;
+            
+            // Harmonics
+            const h2 = base; // 2nd Harmonic (Strongest)
+            const h3 = base * (2/3); // 3rd Harmonic
+            const h4 = base * 0.5; // 4th Harmonic
+
+            document.getElementById("run_2").innerText = h2.toFixed(1) + '"';
+            document.getElementById("run_3").innerText = h3.toFixed(1) + '"';
+            document.getElementById("run_4").innerText = h4.toFixed(1) + '"';
+        }
+    }
+
     function calcDisplacement() {
         const b = getVal("disp_bore"), s = getVal("disp_stroke"), c = getVal("disp_cyl");
         if(b && s && c) {
@@ -385,12 +437,7 @@
     }
 
     function calcRodLength() {
-        const deck = getVal("rod_deck");
-        const stroke = getVal("rod_stroke");
-        const compH = getVal("rod_comp_height");
-        const clear = getVal("rod_clearance") || 0;
-
-        // Rod = Deck - (Stroke/2) - CompHeight - Clearance
+        const deck = getVal("rod_deck"), stroke = getVal("rod_stroke"), compH = getVal("rod_comp_height"), clear = getVal("rod_clearance") || 0;
         if (deck && stroke && compH) {
             const rod = deck - (stroke / 2) - compH - clear;
             document.getElementById("res_rod_len").innerText = `${rod.toFixed(2)} mm`;
@@ -480,5 +527,3 @@
 </script>
 </body>
 </html>
-
-
