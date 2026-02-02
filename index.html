@@ -357,7 +357,7 @@
             let option = document.createElement("option");
             option.value = key; option.text = key; select.appendChild(option);
             let li = document.createElement("li");
-            li.innerHTML = `<strong>${key}</strong>: ${val.bore}mm Bore, ${val.stroke}mm Stroke, ${val.deck}mm Deck Height, ${val.cr} Static Compression Ratio, ${val.cam}deg Cam Intake Duration.`;
+            li.innerHTML = `<strong>${key}</strong>: ${val.bore}mm Bore, ${val.stroke}mm Stroke, ${val.deck}mm Deck Height, ${val.cr} Static CR, ${val.cam} deg Intake Cam Duration`;
             seoList.appendChild(li);
         }
     };
@@ -491,5 +491,6 @@
 </script>
 </body>
 </html>
+
 
 
