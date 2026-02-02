@@ -30,8 +30,11 @@
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; padding: 20px; max-width: 1000px; margin: 0 auto; }
         
         h1, h2, h3 { color: #0f172a; }
-        .hero { text-align: center; margin-bottom: 30px; }
-        .hero p { color: #64748b; max-width: 600px; margin: 0 auto; }
+        
+        /* Hero Section */
+        .hero { text-align: center; margin-bottom: 40px; padding-bottom: 30px; border-bottom: 1px solid #e2e8f0; }
+        .hero h1 { font-size: 2.5em; margin-bottom: 10px; }
+        .hero p { color: #475569; max-width: 700px; margin: 0 auto; font-size: 1.1em; }
 
         /* Tab Navigation */
         .tab-nav { display: flex; border-bottom: 2px solid #e2e8f0; margin-bottom: 20px; overflow-x: auto; }
@@ -60,9 +63,10 @@
         .calc-btn:hover { background: #1d4ed8; }
 
         /* SEO Text Padding */
-        .info-block { background: #eff6ff; border-left: 4px solid var(--primary); padding: 15px; margin-top: 20px; border-radius: 0 4px 4px 0; }
-        .info-block h4 { margin: 0 0 5px 0; color: #1e3a8a; }
-        .info-block p { margin: 0; font-size: 0.9em; color: #334155; }
+        .info-block { background: #eff6ff; border-left: 4px solid var(--primary); padding: 20px; margin-top: 20px; border-radius: 0 4px 4px 0; }
+        .info-block h4 { margin: 0 0 10px 0; color: #1e3a8a; font-size: 1.1em; }
+        .info-block p { margin: 0 0 10px 0; font-size: 0.95em; color: #334155; }
+        .info-block ul { margin: 0; padding-left: 20px; font-size: 0.95em; color: #334155; }
 
         /* Global Selector */
         .global-controls { background: #1e293b; color: white; padding: 20px; border-radius: 8px; margin-bottom: 30px; }
@@ -81,7 +85,7 @@
 
     <div class="hero">
         <h1>Engine Building Calculator Suite</h1>
-        <p>Professional tools for engine geometry, fuel management, and drivetrain analysis.</p>
+        <p>I built this tool because generic calculators often force you to search Wikipedia for every single engine spec. This suite is designed for serious engine builders and tuners—it pre-loads data for popular platforms (Honda K-Series, GM LS, Toyota JZ, etc.) so you can focus on the math that matters: geometry, airflow, and reliability limits.</p>
     </div>
 
     <div class="global-controls">
@@ -137,13 +141,22 @@
                 <button class="calc-btn" onclick="calcRSRatio()">Calculate</button>
                 <div class="result-box" id="res_rs">Ratio: ---</div>
             </div>
+
+             <div class="card">
+                <h3>Bore / Stroke Ratio</h3>
+                <label>Bore (mm)</label><input type="number" id="bs_bore" placeholder="86.0">
+                <label>Stroke (mm)</label><input type="number" id="bs_stroke" placeholder="86.0">
+                <button class="calc-btn" onclick="calcBSRatio()">Calculate</button>
+                <div class="result-box" id="res_bs">Ratio: ---</div>
+            </div>
         </div>
 
         <div class="info-block">
             <h4>Understanding Engine Geometry</h4>
-            
-            <p><strong>Calculating Rod Length:</strong> When building a "stroker" engine, you are limited by the Block Deck Height. To find your required rod length, the formula is: <em>Deck Height - (Stroke ÷ 2) - Compression Height - Deck Clearance</em>. If you change your crankshaft to increase stroke, you must typically use a shorter connecting rod or a piston with a lower compression height (pin moved up).</p>
-            <p><strong>Rod/Stroke Ratio:</strong> A higher ratio (above 1.75) reduces side-loading on the cylinder walls. This is why engines like the Honda F20C (Ratio 1.82) can rev to 9,000 RPM reliably.</p>
+             
+            <p><strong>Calculating Rod Length (Stroker Kits):</strong> When increasing stroke, you are limited by the Block Deck Height. To fit a larger crank, you must often use a shorter connecting rod or a piston with a higher "Compression Height" (pin location). The formula used here is: <em>Deck Height - (Stroke ÷ 2) - Compression Height - Deck Clearance</em>.</p>
+            <p><strong>Rod/Stroke Ratio:</strong> This ratio determines the angle of the rod during rotation. A higher ratio (above 1.75) reduces side-loading on cylinder walls, reducing friction and wear at high RPM. This is why high-revving engines like the Honda F20C (Ratio 1.82) last longer than "stroker" builds with poor ratios (below 1.50).</p>
+            <p><strong>Compression Ratio:</strong> Static CR is the ratio of maximum cylinder volume (BDC) to minimum volume (TDC). While higher CR yields more power, it increases the risk of knock (detonation), requiring higher octane fuel.</p>
         </div>
     </div>
 
@@ -170,8 +183,10 @@
         </div>
         
         <div class="info-block">
-            <h4>Injector Sizing Guide</h4>
-            <p>When upgrading your fuel system, it is crucial to leave "headroom." We calculate based on a maximum <strong>Duty Cycle</strong> (usually 80-85%). Running injectors at 100% duty cycle can cause them to overheat and fail open.</p>
+            <h4>Fuel System Engineering</h4>
+             
+            <p><strong>Injector Duty Cycle:</strong> Why do we limit duty cycle to 80%? Fuel injectors are electromechanical solenoids. If they are held open for too long (100% duty), they can overheat and "latch" open, flooding the cylinder and causing hydraulic lock. We calculate the required flow rate to support your horsepower target while keeping the injector in its safe operating window.</p>
+            <p><strong>CFM (Cubic Feet per Minute):</strong> This calculation helps you select the correct throttle body or carburetor size. An engine is an air pump; if your throttle body flows less CFM than the engine demands at Redline, you are choking power. Conversely, a throttle body that is too large will result in poor low-speed throttle response.</p>
         </div>
     </div>
 
@@ -194,6 +209,18 @@
                 <button class="calc-btn" onclick="calcDCR()">Calculate DCR</button>
                 <div class="result-box" id="res_dcr">--- : 1</div>
             </div>
+        </div>
+
+        <div class="info-block">
+            <h4>Engine Safety Limits</h4>
+             
+            <p><strong>Mean Piston Speed:</strong> This is the average speed of the piston as it travels up and down the bore. It is widely considered the primary limit for connecting rod strength.</p>
+            <ul>
+                <li><strong>Stock Cast Pistons:</strong> Generally safe up to ~4,000 ft/min.</li>
+                <li><strong>Hypereutectic Pistons:</strong> Safe up to ~4,200 ft/min.</li>
+                <li><strong>Forged Pistons (4032/2618):</strong> Can withstand speeds over 5,000+ ft/min (F1 engines run much higher).</li>
+            </ul>
+            <p><strong>Dynamic Compression Ratio (DCR):</strong> Static compression assumes the valves are closed at BDC. In reality, the intake valve stays open slightly as the piston rises (Intake Valve Closing event). DCR calculates the <em>actual</em> compression of the air trapped after the valve closes. This is the number that determines if you can run pump gas or if you need race fuel.</p>
         </div>
     </div>
 
@@ -218,6 +245,12 @@
                 <button class="calc-btn" onclick="calcTireDiff()">Compare Diameters</button>
                 <div class="result-box" id="res_tire">Diff: ---%</div>
             </div>
+        </div>
+
+        <div class="info-block">
+            <h4>Drivetrain Optimization</h4>
+            <p><strong>Gear Ratios:</strong> When swapping transmissions (e.g., putting a ZF 6-speed on an E30), the Final Drive Ratio is critical. A short ratio (4.10) accelerates faster but buzzes at high RPM on the highway. A tall ratio (2.93) is great for cruising/turbo load but feels sluggish off the line. Use this calculator to see your exact cruising RPM or theoretical top speed.</p>
+            <p><strong>Tire Size Variance:</strong> Changing tire sizes affects your speedometer accuracy and effective gear ratio. A taller tire increases top speed but reduces torque at the wheels. Generally, you want to stay within 3% of the factory rolling diameter to avoid ABS/Traction Control errors.</p>
         </div>
     </div>
 
