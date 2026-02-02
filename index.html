@@ -151,7 +151,9 @@
             <h4>Understanding Engine Geometry</h4>
              
             <p><strong>Calculating Rod Length (Stroker Kits):</strong> When increasing stroke, you are limited by the Block Deck Height. To fit a larger crank, you must often use a shorter connecting rod or a piston with a higher "Compression Height" (pin location). The formula used here is: <em>Deck Height - (Stroke ÷ 2) - Compression Height - Deck Clearance</em>.</p>
+            <p><strong>Static Compression Ratio:</strong> Static CR is the ratio of maximum cylinder volume (BDC) to minimum volume (TDC). While higher CR yields more power, it increases the risk of knock (detonation), requiring higher octane fuel.</p>
             <p><strong>Rod/Stroke Ratio:</strong> This ratio determines the angle of the rod during rotation. A higher ratio (above 1.75) reduces side-loading on cylinder walls, reducing friction and wear at high RPM. This is why high-revving engines like the Honda F20C (Ratio 1.82) last longer than "stroker" builds with poor ratios (below 1.50).</p>
+            <p><strong>Bore vs Stroke:</strong> "Square" engines (Bore = Stroke) offer a balance of torque and revvability. "Over-square" engines (Bore > Stroke) are typical for high-revving applications (e.g., F1 engines), while "Under-square" engines favor torque.</p>
         </div>
     </div>
 
@@ -196,6 +198,8 @@
             <br>&bull; <strong>2nd Harmonic:</strong> Strongest signal, usually for high-RPM drag racing.
             <br>&bull; <strong>3rd Harmonic:</strong> Best balance for Street/Strip (most factory performance manifolds).
             <br>&bull; <strong>4th Harmonic:</strong> Good for low-end torque and broader powerbands.</p>
+            <p><strong>CFM (Cubic Feet per Minute):</strong> This calculation helps you select the correct throttle body or carburetor size. An engine is an air pump; if your throttle body flows less CFM than the engine demands at Redline, you are choking power. Conversely, a throttle body that is too large will result in poor low-speed throttle response.</p>
+            <p><strong>Injector Duty Cycle:</strong> Why do we limit duty cycle to 80%? Fuel injectors are electromechanical solenoids. If they are held open for too long (100% duty), they can overheat and "latch" open, flooding the cylinder and causing hydraulic lock. We calculate the required flow rate to support your horsepower target while keeping the injector in its safe operating window.</p>
         </div>
     </div>
 
@@ -228,6 +232,7 @@
                 <li><strong>Stock Cast Pistons:</strong> Generally safe up to ~4,000 ft/min.</li>
                 <li><strong>Forged Pistons (4032/2618):</strong> Can withstand speeds over 5,000+ ft/min (F1 engines run much higher).</li>
             </ul>
+            <p><strong>Dynamic Compression Ratio (DCR):</strong> Static compression assumes the valves are closed at BDC. In reality, the intake valve stays open slightly as the piston rises (Intake Valve Closing event). DCR calculates the <em>actual</em> compression of the air trapped after the valve closes. This is the number that determines if you can run pump gas or if you need race fuel.</p>
         </div>
     </div>
 
@@ -257,6 +262,7 @@
         <div class="info-block">
             <h4>Drivetrain Optimization</h4>
             <p><strong>Gear Ratios:</strong> When swapping transmissions (e.g., putting a ZF 6-speed on an E30), the Final Drive Ratio is critical. A short ratio (4.10) accelerates faster but buzzes at high RPM on the highway. A tall ratio (2.93) is great for cruising/turbo load but feels sluggish off the line. Use this calculator to see your exact cruising RPM or theoretical top speed.</p>
+            <p><strong>Tire Size Variance:</strong> Changing tire sizes affects your speedometer accuracy and effective gear ratio. A taller tire increases top speed but reduces torque at the wheels. Generally, you want to stay within 3% of the factory rolling diameter to avoid ABS/Traction Control errors.</p>
         </div>
     </div>
 
@@ -527,3 +533,4 @@
 </script>
 </body>
 </html>
+
