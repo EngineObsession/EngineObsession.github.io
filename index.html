@@ -263,6 +263,41 @@
         <h3>Available Engine Specifications</h3>
         <ul id="seo-list"></ul>
     </section>
+<footer class="site-footer">
+        <div class="footer-links">
+            <a href="#" onclick="openModal('privacyModal'); return false;">Privacy Policy</a> | 
+            <a href="#" onclick="openModal('termsModal'); return false;">Terms of Use</a>
+        </div>
+        <p>&copy; 2026 Engine Calculator Suite. All rights reserved.</p>
+    </footer>
+
+    <div id="cookie-banner">
+        <span>We use local storage to save your preferences. No personal data is sent to servers.</span>
+        <button onclick="acceptCookies()">Got it</button>
+    </div>
+
+    <div id="privacyModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('privacyModal')">&times;</span>
+            <h2>Privacy Policy</h2>
+            <p><strong>Last Updated: January 2026</strong></p>
+            <p>This website is a static tool provided for educational and entertainment purposes.</p>
+            <h3>1. Data Collection</h3>
+            <p>We do not collect personal data (names, emails, addresses). All calculations happen directly in your browser using JavaScript. The data you enter into the calculators is not sent to any server.</p>
+            <h3>2. Cookies & Local Storage</h3>
+            <p>We use local storage simply to remember if you have dismissed the cookie banner. We may use third-party services (like Google Analytics or AdSense) which use cookies to serve relevant ads or analyze traffic.</p>
+            <h3>3. Disclaimer</h3>
+            <p>These calculators are for estimation only. Always verify measurements with a professional machine shop before purchasing parts or machining engine blocks.</p>
+        </div>
+    </div>
+
+    <div id="termsModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('termsModal')">&times;</span>
+            <h2>Terms of Use</h2>
+            <p>By using this website, you agree that the results provided are estimates. The creator of this site is not responsible for any engine damage, financial loss, or mechanical failures resulting from the use of this data. Always measure twice, cut once.</p>
+        </div>
+    </div>
 
 <script>
 // --- 1. ENGINE DATABASE (Updated with Deck Height in mm & Cam Duration) ---
@@ -491,6 +526,7 @@
 </script>
 </body>
 </html>
+
 
 
 
