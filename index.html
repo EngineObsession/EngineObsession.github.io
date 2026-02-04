@@ -537,9 +537,24 @@
         if(p) return (parseFloat(p[1]) * (parseFloat(p[2])/100) * 2 / 25.4) + parseFloat(p[3]);
         return null;
     }
+
+    // --- 5. COOKIES & MODALS ---
+    if (!localStorage.getItem('cookiesAccepted')) {
+        document.getElementById('cookie-banner').style.display = 'flex';
+    }
+    function acceptCookies() {
+        localStorage.setItem('cookiesAccepted', 'true');
+        document.getElementById('cookie-banner').style.display = 'none';
+    }
+    function openModal(id) { document.getElementById(id).style.display = 'block'; }
+    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+    window.onclick = function(event) {
+        if (event.target.classList.contains('modal')) event.target.style.display = "none";
+    }
 </script>
 </body>
 </html>
+
 
 
 
