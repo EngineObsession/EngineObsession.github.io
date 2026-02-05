@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://github.com/EngineObsession/EngineObsession.github.io/blob/main/sitemap.xml
